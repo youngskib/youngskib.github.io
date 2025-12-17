@@ -11,13 +11,11 @@
     :root {
       --bg: #f2ece8;
       --text: #000;
-      --border: #000;
     }
 
     body.dark {
       --bg: #111;
       --text: #eaeaea;
-      --border: #eaeaea;
     }
 
     * { box-sizing: border-box; font-family: "Anek Tamil", -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
@@ -31,96 +29,57 @@
       background: var(--bg);
       color: var(--text);
       transition: background 0.4s ease, color 0.4s ease;
-      overflow: hidden;
       padding: 20px;
     }
 
     .release {
-      position: relative;
-      width: 320px;
-      max-width: 90vw;
-      text-align: center;
       margin-bottom: 40px;
+      text-align: center;
+      font-size: 18px;
     }
 
-    .release .art-bg {
-      position: absolute;
-      inset: 0;
-      background-size: cover;
-      background-position: center;
-      opacity: 0.12;
-      filter: blur(24px);
-      animation: drift 18s ease-in-out infinite;
-      z-index: 0;
-    }
-
-    body.dark .release .art-bg { opacity: 0.08; }
-
-    @keyframes drift {
-      0%, 100% { transform: scale(1) translateY(0); }
-      50% { transform: scale(1.05) translateY(-10px); }
-    }
-
-    .release .container { position: relative; z-index: 1; backdrop-filter: blur(2px); }
-
-    .title { font-weight: 600; margin-bottom: 6px; cursor: pointer; }
-    .status { margin-bottom: 16px; opacity: 0.8; animation: breathe 4s ease-in-out infinite; }
-    @keyframes breathe { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
-
-    .player { margin-bottom: 16px; filter: grayscale(1); transition: filter 0.4s ease; }
-    body.dark .player { filter: grayscale(1) invert(1); }
-    iframe { width: 100%; border-radius: 6px; border: none; }
-
-    .links { margin: 12px 0 16px; }
-    .links button {
-      background: none;
-      border: none;
-      font-size: 11px;
-      cursor: pointer;
+    .title {
+      font-weight: 600;
+      font-size: 24px;
+      margin-bottom: 6px;
+      text-decoration: none;
       color: var(--text);
-      padding: 0;
-      border-bottom: 1px solid transparent;
+      cursor: pointer;
     }
-    .links button:hover { border-bottom: 1px solid var(--border); }
+
+    .title:hover {
+      text-decoration: underline;
+    }
+
+    .status {
+      font-size: 14px;
+      opacity: 0.8;
+      margin-bottom: 12px;
+    }
 
     .toggle {
       opacity: 0.7;
-      font-size: 10px;
+      font-size: 12px;
       cursor: pointer;
       background: none;
       border: none;
       color: var(--text);
-      margin-top: 10px;
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
 
-  <!-- AIMLESS Release (COMING SOON) -->
+  <!-- AIMLESS Release -->
   <div class="release">
-    <div class="art-bg" style="background-image: url('AIMLESS_ALBUM_ART_URL');"></div>
-    <div class="container">
-      <div class="title" data-link="https://youngskib.github.io/AIMLESS/">AIMLESS</div>
-      <div class="status" id="aimlessCountdown">COMING SOON</div>
-      <div class="links">
-        <button data-link="https://youngskib.github.io/AIMLESS/">PLAY</button>
-      </div>
-    </div>
+    <a href="https://youngskib.github.io/AIMLESS/" class="title" target="_blank">AIMLESS</a>
+    <div class="status" id="aimlessCountdown">COMING SOON</div>
   </div>
 
-  <!-- PEACH YOGURT Release (OUT NOW) -->
+  <!-- PEACH YOGURT Release -->
   <div class="release">
-    <div class="art-bg" style="background-image: url('PEACH_ALBUM_ART_URL');"></div>
-    <div class="container">
-      <div class="title" data-link="https://youngskib.github.io/PEACH-YOGURT/">PEACH YOGURT</div>
-      <div class="status">OUT NOW</div>
-      <div class="player">
-        <iframe src="https://open.spotify.com/embed/track/21ITWrkNRmgHibmslJ2krl" height="80" allow="encrypted-media" loading="lazy"></iframe>
-      </div>
-      <div class="links">
-        <button data-link="https://youngskib.github.io/PEACH-YOGURT/">PLAY</button>
-      </div>
-    </div>
+    <a href="https://youngskib.github.io/PEACH-YOGURT/" class="title" target="_blank">PEACH YOGURT</a>
+    <div class="status">OUT NOW</div>
   </div>
 
   <button class="toggle" id="themeToggle">DARK MODE</button>
@@ -133,22 +92,12 @@
       toggleBtn.innerText = document.body.classList.contains("dark") ? "LIGHT MODE" : "DARK MODE";
     });
 
-    /* Redirects for PLAY buttons and titles */
-    document.querySelectorAll('.title, .links button').forEach(el => {
-      el.addEventListener('click', () => {
-        const url = el.getAttribute('data-link');
-        window.location.href = url;
-      });
-    });
-
-    /* Optional: Countdown for AIMLESS */
+    /* Countdown for AIMLESS */
     const aimlessCountdownEl = document.getElementById("aimlessCountdown");
-    // Example: release on next Dec 25
-    const now = new Date();
+    let now = new Date();
     let releaseYear = now.getFullYear();
-    const releaseDate = new Date(releaseYear, 11, 25); 
-    if(now > releaseDate) releaseYear += 1;
-
+    const releaseDate = new Date(releaseYear, 11, 25); // Example: Dec 25 release
+    if (now > releaseDate) releaseYear += 1;
     const targetDate = new Date(releaseYear, 11, 25).getTime();
 
     setInterval(() => {
@@ -158,9 +107,9 @@
         aimlessCountdownEl.innerText = "COMING SOON";
         return;
       }
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const days = Math.floor(diff / (1000*60*60*24));
+      const hours = Math.floor((diff / (1000*60*60)) % 24);
+      const minutes = Math.floor((diff / (1000*60)) % 60);
       const seconds = Math.floor((diff / 1000) % 60);
       aimlessCountdownEl.innerText = `${days} DAYS ${hours.toString().padStart(2,"0")}:${minutes.toString().padStart(2,"0")}:${seconds.toString().padStart(2,"0")}`;
     }, 1000);
