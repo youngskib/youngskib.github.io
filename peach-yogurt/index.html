@@ -5,44 +5,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PEACH YOGURT</title>
 
-  <!-- Anek Tamil Font -->
   <link href="https://fonts.googleapis.com/css2?family=Anek+Tamil:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <style>
     :root {
       --bg: #f2ece8;
       --text: #000;
-      --border: #000;
     }
 
     body.dark {
       --bg: #111;
       --text: #eaeaea;
-      --border: #eaeaea;
     }
 
     * {
       box-sizing: border-box;
-      font-family: "Anek Tamil", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      font-family: "Anek Tamil", system-ui, sans-serif;
     }
 
     body {
       margin: 0;
-      min-height: 100vh;
+      height: 100vh;
+      background: var(--bg);
+      color: var(--text);
       display: flex;
       align-items: center;
       justify-content: center;
-      background: var(--bg);
-      color: var(--text);
       transition: background 0.4s ease, color 0.4s ease;
     }
 
     .container {
+      width: 320px;
+      max-width: 90vw;
       text-align: center;
       font-size: 12px;
       letter-spacing: 0.5px;
-      width: 320px;
-      max-width: 90vw;
     }
 
     .title {
@@ -57,28 +54,23 @@
     }
 
     @keyframes breathe {
-      0%, 100% { opacity: 0.6; }
+      0%,100% { opacity: 0.6; }
       50% { opacity: 1; }
-    }
-
-    .player {
-      margin-bottom: 16px;
-      filter: grayscale(1);
-      transition: filter 0.4s ease;
-    }
-
-    body.dark .player {
-      filter: grayscale(1) invert(1);
     }
 
     iframe {
       width: 100%;
-      border-radius: 6px;
       border: none;
+      border-radius: 6px;
+      filter: grayscale(1);
+    }
+
+    body.dark iframe {
+      filter: grayscale(1) invert(1);
     }
 
     .links {
-      margin: 12px 0 16px;
+      margin: 14px 0;
     }
 
     .links button {
@@ -87,72 +79,71 @@
       font-size: 11px;
       cursor: pointer;
       color: var(--text);
-      padding: 0;
       border-bottom: 1px solid transparent;
     }
 
     .links button:hover {
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--text);
     }
 
+    .back-link,
     .toggle {
-      opacity: 0.7;
-      font-size: 10px;
-      cursor: pointer;
+      position: fixed;
+      top: 18px;
+      font-size: 11px;
+      opacity: 0.6;
       background: none;
       border: none;
       color: var(--text);
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .back-link { left: 20px; }
+    .toggle { right: 20px; }
+
+    .back-link:hover,
+    .toggle:hover {
+      opacity: 1;
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
+
+  <a href="/" class="back-link">← BACK</a>
+  <button class="toggle" id="themeToggle">DARK MODE</button>
+
   <div class="container">
     <div class="title">PEACH YOGURT</div>
     <div class="status">OUT NOW</div>
 
-    <!-- Spotify Embed -->
-    <div class="player">
-      <iframe
-        src="https://open.spotify.com/embed/track/21ITWrkNRmgHibmslJ2krl"
-        height="80"
-        allow="encrypted-media"
-        loading="lazy">
-      </iframe>
-    </div>
+    <iframe
+      src="https://open.spotify.com/embed/track/21ITWrkNRmgHibmslJ2krl"
+      height="80"
+      loading="lazy">
+    </iframe>
 
-    <!-- Smart Play Link -->
     <div class="links">
-      <button id="smartPlay">PLAY</button>
+      <button id="play">PLAY</button>
     </div>
-
-    <button class="toggle" id="themeToggle">DARK MODE</button>
   </div>
 
   <script>
-    /* Theme Toggle */
-    const toggleBtn = document.getElementById("themeToggle");
-    toggleBtn.addEventListener("click", () => {
+    const toggle = document.getElementById("themeToggle");
+    toggle.onclick = () => {
       document.body.classList.toggle("dark");
-      toggleBtn.innerText = document.body.classList.contains("dark")
-        ? "LIGHT MODE"
-        : "DARK MODE";
-    });
-
-    /* Smart Redirect */
-    const links = {
-      spotify: "https://open.spotify.com/track/21ITWrkNRmgHibmslJ2krl?si=e28a1879ee0e42b3",
-      apple: "https://music.apple.com/us/album/peach-yogurt-single/1837488443"
+      toggle.innerText =
+        document.body.classList.contains("dark") ? "LIGHT MODE" : "DARK MODE";
     };
 
-    document.getElementById("smartPlay").addEventListener("click", () => {
+    document.getElementById("play").onclick = () => {
       const ua = navigator.userAgent.toLowerCase();
-
-      if (ua.includes("iphone") || ua.includes("ipad") || ua.includes("mac")) {
-        window.location.href = links.apple;
-      } else {
-        window.location.href = links.spotify;
-      }
-    });
+      location.href = ua.includes("iphone") || ua.includes("mac")
+        ? "https://music.apple.com/us/album/peach-yogurt-single/1837488443"
+        : "https://open.spotify.com/track/21ITWrkNRmgHibmslJ2krl";
+    };
   </script>
+
 </body>
 </html>
