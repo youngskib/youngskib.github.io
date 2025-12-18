@@ -37,7 +37,7 @@
       padding: 20px;
     }
 
-    /* Corner SHOP link */
+    /* Corner SHOP */
     .shop-link {
       position: fixed;
       top: 18px;
@@ -94,18 +94,18 @@
 </head>
 <body>
 
-  <!-- SHOP (corner) -->
-  <a href="https://youngskib.github.io/shop/" class="shop-link">SHOP</a>
+  <!-- SHOP -->
+  <a href="/shop/" class="shop-link">SHOP</a>
 
   <!-- AIMLESS -->
   <div class="release">
-    <a href="https://youngskib.github.io/AIMLESS/" class="title" target="_blank">AIMLESS</a>
+    <a href="/aimless/" class="title">AIMLESS</a>
     <div class="status" id="aimlessCountdown">COMING SOON</div>
   </div>
 
   <!-- PEACH YOGURT -->
   <div class="release">
-    <a href="https://youngskib.github.io/PEACH-YOGURT/" class="title" target="_blank">PEACH YOGURT</a>
+    <a href="/peach-yogurt/" class="title">PEACH YOGURT</a>
     <div class="status">OUT NOW</div>
   </div>
 
@@ -121,32 +121,26 @@
     });
 
     /* AIMLESS Countdown */
-    const countdownEl = document.getElementById("aimlessCountdown");
+    const el = document.getElementById("aimlessCountdown");
     const nowInit = new Date();
     let year = nowInit.getFullYear();
-    const releaseDate = new Date(year, 11, 25);
-    if (nowInit > releaseDate) year++;
+    const release = new Date(year, 11, 25);
+    if (nowInit > release) year++;
     const target = new Date(year, 11, 25).getTime();
 
     setInterval(() => {
       const diff = target - Date.now();
       if (diff <= 0) {
-        countdownEl.innerText = "OUT NOW";
+        el.innerText = "OUT NOW";
         return;
       }
-
       const d = Math.floor(diff / 86400000);
       const h = Math.floor((diff / 3600000) % 24);
       const m = Math.floor((diff / 60000) % 60);
       const s = Math.floor((diff / 1000) % 60);
-
-      countdownEl.innerText = `${d} DAYS ${h
+      el.innerText = `${d} DAYS ${h.toString().padStart(2,"0")}:${m
         .toString()
-        .padStart(2, "0")}:${m
-        .toString()
-        .padStart(2, "0")}:${s
-        .toString()
-        .padStart(2, "0")}`;
+        .padStart(2,"0")}:${s.toString().padStart(2,"0")}`;
     }, 1000);
   </script>
 
