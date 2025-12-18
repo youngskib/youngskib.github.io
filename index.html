@@ -37,7 +37,7 @@
       padding: 20px;
     }
 
-    /* Corner SHOP */
+    /* SHOP (corner) */
     .shop-link {
       position: fixed;
       top: 18px;
@@ -121,28 +121,21 @@
     });
 
     /* AIMLESS Countdown */
-    const el = document.getElementById("aimlessCountdown");
+    const countdownEl = document.getElementById("aimlessCountdown");
     const nowInit = new Date();
     let year = nowInit.getFullYear();
-    const release = new Date(year, 11, 25);
-    if (nowInit > release) year++;
+    const releaseDate = new Date(year, 11, 25);
+    if (nowInit > releaseDate) year++;
     const target = new Date(year, 11, 25).getTime();
 
     setInterval(() => {
       const diff = target - Date.now();
       if (diff <= 0) {
-        el.innerText = "OUT NOW";
+        countdownEl.innerText = "OUT NOW";
         return;
       }
+
       const d = Math.floor(diff / 86400000);
       const h = Math.floor((diff / 3600000) % 24);
       const m = Math.floor((diff / 60000) % 60);
-      const s = Math.floor((diff / 1000) % 60);
-      el.innerText = `${d} DAYS ${h.toString().padStart(2,"0")}:${m
-        .toString()
-        .padStart(2,"0")}:${s.toString().padStart(2,"0")}`;
-    }, 1000);
-  </script>
-
-</body>
-</html>
+      const s
