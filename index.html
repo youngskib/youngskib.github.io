@@ -6,7 +6,6 @@
   <title>YOUNGSKIB MUSIC</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Anek+Tamil:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  
   <link rel="icon" type="image/png" href="favicon.png" />
 
   <style>
@@ -20,7 +19,11 @@
       --text: #eaeaea;
     }
 
-    * { box-sizing: border-box; font-family: "Anek Tamil", -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
+    * {
+      box-sizing: border-box;
+      font-family: "Anek Tamil", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    }
+
     body {
       margin: 0;
       min-height: 100vh;
@@ -72,16 +75,22 @@
 </head>
 <body>
 
-  <!-- AIMLESS Release -->
+  <!-- AIMLESS -->
   <div class="release">
     <a href="https://youngskib.github.io/AIMLESS/" class="title" target="_blank">AIMLESS</a>
     <div class="status" id="aimlessCountdown">COMING SOON</div>
   </div>
 
-  <!-- PEACH YOGURT Release -->
+  <!-- PEACH YOGURT -->
   <div class="release">
     <a href="https://youngskib.github.io/PEACH-YOGURT/" class="title" target="_blank">PEACH YOGURT</a>
     <div class="status">OUT NOW</div>
+  </div>
+
+  <!-- SHOP -->
+  <div class="release">
+    <a href="https://youngskib.github.io/shop/" class="title">SHOP</a>
+    <div class="status">PHYSICAL MEDIA</div>
   </div>
 
   <button class="toggle" id="themeToggle">DARK MODE</button>
@@ -91,29 +100,31 @@
     const toggleBtn = document.getElementById("themeToggle");
     toggleBtn.addEventListener("click", () => {
       document.body.classList.toggle("dark");
-      toggleBtn.innerText = document.body.classList.contains("dark") ? "LIGHT MODE" : "DARK MODE";
+      toggleBtn.innerText =
+        document.body.classList.contains("dark") ? "LIGHT MODE" : "DARK MODE";
     });
 
-    /* Countdown for AIMLESS */
-    const aimlessCountdownEl = document.getElementById("aimlessCountdown");
+    /* AIMLESS Countdown */
+    const el = document.getElementById("aimlessCountdown");
     let now = new Date();
-    let releaseYear = now.getFullYear();
-    const releaseDate = new Date(releaseYear, 11, 25); // Example: Dec 25 release
-    if (now > releaseDate) releaseYear += 1;
-    const targetDate = new Date(releaseYear, 11, 25).getTime();
+    let year = now.getFullYear();
+    let release = new Date(year, 11, 25);
+    if (now > release) year++;
+    const target = new Date(year, 11, 25).getTime();
 
     setInterval(() => {
-      const now = new Date().getTime();
-      const diff = targetDate - now;
-      if(diff <= 0){
-        aimlessCountdownEl.innerText = "COMING SOON";
+      const diff = target - Date.now();
+      if (diff <= 0) {
+        el.innerText = "OUT NOW";
         return;
       }
-      const days = Math.floor(diff / (1000*60*60*24));
-      const hours = Math.floor((diff / (1000*60*60)) % 24);
-      const minutes = Math.floor((diff / (1000*60)) % 60);
-      const seconds = Math.floor((diff / 1000) % 60);
-      aimlessCountdownEl.innerText = `${days} DAYS ${hours.toString().padStart(2,"0")}:${minutes.toString().padStart(2,"0")}:${seconds.toString().padStart(2,"0")}`;
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff / 3600000) % 24);
+      const m = Math.floor((diff / 60000) % 60);
+      const s = Math.floor((diff / 1000) % 60);
+      el.innerText = `${d} DAYS ${h.toString().padStart(2,"0")}:${m
+        .toString()
+        .padStart(2,"0")}:${s.toString().padStart(2,"0")}`;
     }, 1000);
   </script>
 
