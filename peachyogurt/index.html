@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PEACH YOGURT</title>
+
+  <!-- Anek Tamil Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Anek+Tamil:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #f2ece8;
+      --text: #000;
+      --border: #000;
+    }
+
+    body.dark {
+      --bg: #111;
+      --text: #eaeaea;
+      --border: #eaeaea;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: "Anek Tamil", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      color: var(--text);
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    .container {
+      text-align: center;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      width: 320px;
+      max-width: 90vw;
+    }
+
+    .title {
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .status {
+      margin-bottom: 16px;
+      opacity: 0.8;
+      animation: breathe 4s ease-in-out infinite;
+    }
+
+    @keyframes breathe {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+
+    .player {
+      margin-bottom: 16px;
+      filter: grayscale(1);
+      transition: filter 0.4s ease;
+    }
+
+    body.dark .player {
+      filter: grayscale(1) invert(1);
+    }
+
+    iframe {
+      width: 100%;
+      border-radius: 6px;
+      border: none;
+    }
+
+    .links {
+      margin: 12px 0 16px;
+    }
+
+    .links button {
+      background: none;
+      border: none;
+      font-size: 11px;
+      cursor: pointer;
+      color: var(--text);
+      padding: 0;
+      border-bottom: 1px solid transparent;
+    }
+
+    .links button:hover {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .toggle {
+      opacity: 0.7;
+      font-size: 10px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: var(--text);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="title">PEACH YOGURT</div>
+    <div class="status">OUT NOW</div>
+
+    <!-- Spotify Embed -->
+    <div class="player">
+      <iframe
+        src="https://open.spotify.com/embed/track/21ITWrkNRmgHibmslJ2krl"
+        height="80"
+        allow="encrypted-media"
+        loading="lazy">
+      </iframe>
+    </div>
+
+    <!-- Smart Play Link -->
+    <div class="links">
+      <button id="smartPlay">PLAY</button>
+    </div>
+
+    <button class="toggle" id="themeToggle">DARK MODE</button>
+  </div>
+
+  <script>
+    /* Theme Toggle */
+    const toggleBtn = document.getElementById("themeToggle");
+    toggleBtn.addEventListener("click", () => {
+      document.body.classList.toggle("dark");
+      toggleBtn.innerText = document.body.classList.contains("dark")
+        ? "LIGHT MODE"
+        : "DARK MODE";
+    });
+
+    /* Smart Redirect */
+    const links = {
+      spotify: "https://open.spotify.com/track/21ITWrkNRmgHibmslJ2krl?si=e28a1879ee0e42b3",
+      apple: "https://music.apple.com/us/album/peach-yogurt-single/1837488443"
+    };
+
+    document.getElementById("smartPlay").addEventListener("click", () => {
+      const ua = navigator.userAgent.toLowerCase();
+
+      if (ua.includes("iphone") || ua.includes("ipad") || ua.includes("mac")) {
+        window.location.href = links.apple;
+      } else {
+        window.location.href = links.spotify;
+      }
+    });
+  </script>
+</body>
+</html>
