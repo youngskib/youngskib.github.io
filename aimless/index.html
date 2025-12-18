@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AIMLESS</title>
+
+  <!-- Anek Tamil Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Anek+Tamil:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #dcdcdc;
+      --text: #000;
+      --border: #000;
+    }
+
+    body.dark {
+      --bg: #111;
+      --text: #eaeaea;
+      --border: #eaeaea;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: "Anek Tamil", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      color: var(--text);
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    .container {
+      text-align: center;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+    }
+
+    .title {
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .date {
+      margin-bottom: 12px;
+      opacity: 0.85;
+      display: inline-block;
+      transition: transform 0.25s ease, opacity 0.25s ease;
+    }
+
+    .date.tick {
+      transform: scale(1.05);
+      opacity: 1;
+    }
+
+    .email-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+
+    input {
+      border: none;
+      border-bottom: 1px solid var(--border);
+      background: transparent;
+      padding: 4px 6px;
+      font-size: 11px;
+      outline: none;
+      width: 140px;
+      color: var(--text);
+    }
+
+    input::placeholder {
+      opacity: 0.6;
+      color: var(--text);
+    }
+
+    button {
+      border: none;
+      background: none;
+      font-size: 11px;
+      cursor: pointer;
+      padding: 4px 6px;
+      color: var(--text);
+    }
+
+    button:hover {
+      text-decoration: underline;
+    }
+
+    .toggle {
+      opacity: 0.7;
+      font-size: 10px;
+    }
+
+    @media (max-width: 400px) {
+      .email-row {
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      input {
+        width: 180px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="title">AIMLESS</div>
+    <div class="date" id="countdown">COMING SOON</div>
+
+    <div class="email-row">
+      <input type="email" id="email" placeholder="ENTER EMAIL" aria-label="Email address" />
+      <button id="notifyBtn">NOTIFY ME</button>
+    </div>
+
+    <button class="toggle" id="themeToggle">DARK MODE</button>
+  </div>
+
+  <script>
+    /* =====================
+       Countdown Logic
+    ====================== */
+
+    const nowInit = new Date();
+    const currentYear = nowInit.getFullYear();
+    const thisYearsChristmas = new Date(currentYear, 11, 25, 0, 0, 0);
+    const targetYear = nowInit > thisYearsChristmas ? currentYear + 1 : currentYear;
+    const targetDate = new Date(targetYear, 11, 25, 0, 0, 0).getTime();
+
+    const countdownEl = document.getElementById("countdown");
+
+    function updateCountdown() {
+      const now = Date.now();
+      const diff = targetDate - now;
+
+      if (diff <= 0) {
+        countdownEl.innerText = "LIVE";
+        return;
+      }
+
+      const days = Math.floor(diff / 86400000);
+      const hours = Math.floor((diff % 86400000) / 3600000);
+      const minutes = Math.floor((diff % 3600000) / 60000);
+      const seconds = Math.floor((diff % 60000) / 1000);
+
+      countdownEl.innerText = `${days} DAYS ${hours
+        .toString()
+        .padStart(2, "0")}:${minutes
+        .toString()
+        .padStart(2, "0")}:${seconds
+        .toString()
+        .padStart(2, "0")}`;
+
+      // subtle animation
+      countdownEl.classList.add("tick");
+      setTimeout(() => countdownEl.classList.remove("tick"), 200);
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    /* =====================
+       Theme Toggle
+    ====================== */
+
+    const toggleBtn = document.getElementById("themeToggle");
+    const body = document.body;
+
+    toggleBtn.addEventListener("click", () => {
+      body.classList.toggle("dark");
+      toggleBtn.innerText = body.classList.contains("dark")
+        ? "LIGHT MODE"
+        : "DARK MODE";
+    });
+
+    /* =====================
+       Notify Button (placeholder)
+    ====================== */
+
+    document.getElementById("notifyBtn").addEventListener("click", () => {
+      const email = document.getElementById("email").value.trim();
+      if (!email) return alert("Please enter an email");
+      alert("Thanks. You'll be notified.");
+      document.getElementById("email").value = "";
+    });
+  </script>
+</body>
+</html>
