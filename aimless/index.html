@@ -47,7 +47,7 @@
       margin-bottom: 6px;
     }
 
-    .date {
+    .countdown {
       margin-bottom: 14px;
       opacity: 0.85;
     }
@@ -106,7 +106,7 @@
 
   <div class="container">
     <div class="title">AIMLESS</div>
-    <div class="date" id="countdown">COMING SOON</div>
+    <div class="countdown" id="countdown">LOADING</div>
 
     <div class="email-row">
       <input type="email" placeholder="ENTER EMAIL" />
@@ -115,6 +115,7 @@
   </div>
 
   <script>
+    /* Dark mode */
     const toggle = document.getElementById("themeToggle");
     toggle.onclick = () => {
       document.body.classList.toggle("dark");
@@ -122,30 +123,40 @@
         document.body.classList.contains("dark") ? "LIGHT MODE" : "DARK MODE";
     };
 
+    /* Countdown + auto-update */
     const el = document.getElementById("countdown");
 
-    function update() {
+    function updateCountdown() {
       const now = new Date();
-      let target = new Date(now.getFullYear(), 11, 25);
-      if (now > target) target = new Date(now.getFullYear() + 1, 11, 25);
-      const diff = target - now;
 
-      if (diff <= 0) {
+      // TARGET: December 25 (local time)
+      let target = new Date(now.getFullYear(), 11, 25, 0, 0, 0);
+
+      if (now >= target) {
         el.innerText = "LIVE";
+
+        // Auto-redirect after release
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 2000);
+
         return;
       }
 
+      const diff = target - now;
       const d = Math.floor(diff / 86400000);
       const h = Math.floor((diff % 86400000) / 3600000);
       const m = Math.floor((diff % 3600000) / 60000);
       const s = Math.floor((diff % 60000) / 1000);
 
-      el.innerText = `${d} DAYS ${h.toString().padStart(2,"0")}:${m
-        .toString().padStart(2,"0")}:${s.toString().padStart(2,"0")}`;
+      el.innerText =
+        `${d} DAYS ${h.toString().padStart(2,"0")}:` +
+        `${m.toString().padStart(2,"0")}:` +
+        `${s.toString().padStart(2,"0")}`;
     }
 
-    update();
-    setInterval(update, 1000);
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
   </script>
 
 </body>
