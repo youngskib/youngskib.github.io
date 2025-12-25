@@ -9,7 +9,7 @@
 
   <style>
     :root {
-      --bg: #dcdcdc;
+      --bg: #f2ece8;
       --text: #000;
       --border: #000;
     }
@@ -27,12 +27,12 @@
 
     body {
       margin: 0;
-      height: 100vh;
-      background: var(--bg);
-      color: var(--text);
+      min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
+      background: var(--bg);
+      color: var(--text);
       transition: background 0.4s ease, color 0.4s ease;
     }
 
@@ -40,6 +40,8 @@
       text-align: center;
       font-size: 12px;
       letter-spacing: 0.5px;
+      width: 320px;
+      max-width: 90vw;
     }
 
     .title {
@@ -47,52 +49,63 @@
       margin-bottom: 6px;
     }
 
-    .countdown {
-      margin-bottom: 14px;
-      opacity: 0.85;
+    .status {
+      margin-bottom: 16px;
+      opacity: 0.8;
+      animation: breathe 4s ease-in-out infinite;
     }
 
-    .email-row {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      margin-bottom: 14px;
+    @keyframes breathe {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
     }
 
-    input {
+    .player {
+      margin-bottom: 16px;
+      filter: grayscale(1);
+      transition: filter 0.4s ease;
+    }
+
+    body.dark .player {
+      filter: grayscale(1) invert(1);
+    }
+
+    iframe {
+      width: 100%;
+      border-radius: 6px;
       border: none;
-      border-bottom: 1px solid var(--border);
-      background: transparent;
-      padding: 4px 6px;
-      font-size: 11px;
-      width: 140px;
-      color: var(--text);
-      outline: none;
     }
 
-    button {
+    .links button {
       background: none;
       border: none;
       font-size: 11px;
       cursor: pointer;
       color: var(--text);
+      padding: 0;
+      border-bottom: 1px solid transparent;
     }
 
-    .back-link,
+    .links button:hover {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .back,
     .toggle {
       position: fixed;
       top: 18px;
       font-size: 11px;
       opacity: 0.6;
+      background: none;
+      border: none;
       color: var(--text);
-      text-decoration: none;
       cursor: pointer;
     }
 
-    .back-link { left: 20px; }
+    .back { left: 20px; }
     .toggle { right: 20px; }
 
-    .back-link:hover,
+    .back:hover,
     .toggle:hover {
       opacity: 1;
       text-decoration: underline;
@@ -101,62 +114,38 @@
 </head>
 <body>
 
-  <a href="/" class="back-link">← BACK</a>
+  <a href="/" class="back">← BACK</a>
   <button class="toggle" id="themeToggle">DARK MODE</button>
 
   <div class="container">
     <div class="title">AIMLESS</div>
-    <div class="countdown" id="countdown">LOADING</div>
+    <div class="status">OUT NOW</div>
 
-    <div class="email-row">
-      <input type="email" placeholder="ENTER EMAIL" />
-      <button>NOTIFY ME</button>
+    <div class="player">
+      <iframe
+        src="https://open.spotify.com/embed/album/1DglvplH1kQum3yaQvlmNb"
+        height="80"
+        allow="encrypted-media"
+        loading="lazy">
+      </iframe>
+    </div>
+
+    <div class="links">
+      <button id="play">PLAY</button>
     </div>
   </div>
 
   <script>
-    /* Dark mode */
-    const toggle = document.getElementById("themeToggle");
-    toggle.onclick = () => {
+    document.getElementById("themeToggle").onclick = () => {
       document.body.classList.toggle("dark");
-      toggle.innerText =
+      document.getElementById("themeToggle").innerText =
         document.body.classList.contains("dark") ? "LIGHT MODE" : "DARK MODE";
     };
 
-    /* Countdown + auto-update */
-    const el = document.getElementById("countdown");
-
-    function updateCountdown() {
-      const now = new Date();
-
-      // TARGET: December 25 (local time)
-      let target = new Date(now.getFullYear(), 11, 25, 0, 0, 0);
-
-      if (now >= target) {
-        el.innerText = "LIVE";
-
-        // Auto-redirect after release
-        setTimeout(() => {
-          window.location.href = "/";
-        }, 2000);
-
-        return;
-      }
-
-      const diff = target - now;
-      const d = Math.floor(diff / 86400000);
-      const h = Math.floor((diff % 86400000) / 3600000);
-      const m = Math.floor((diff % 3600000) / 60000);
-      const s = Math.floor((diff % 60000) / 1000);
-
-      el.innerText =
-        `${d} DAYS ${h.toString().padStart(2,"0")}:` +
-        `${m.toString().padStart(2,"0")}:` +
-        `${s.toString().padStart(2,"0")}`;
-    }
-
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
+    document.getElementById("play").onclick = () => {
+      window.location.href =
+        "https://open.spotify.com/album/1DglvplH1kQum3yaQvlmNb";
+    };
   </script>
 
 </body>
