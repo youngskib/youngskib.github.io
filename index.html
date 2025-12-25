@@ -61,22 +61,6 @@
       opacity: 0.8;
     }
 
-    .shop-icon {
-      position: fixed;
-      top: 18px;
-      right: 20px;
-      font-size: 12px;
-      text-decoration: none;
-      color: var(--text);
-      opacity: 0.7;
-      z-index: 5;
-    }
-
-    .shop-icon:hover {
-      opacity: 1;
-      text-decoration: underline;
-    }
-
     .toggle {
       position: fixed;
       bottom: 20px;
@@ -86,7 +70,6 @@
       background: none;
       border: none;
       color: var(--text);
-      z-index: 10;
     }
 
     .toggle:hover {
@@ -96,8 +79,6 @@
   </style>
 </head>
 <body>
-
-  <a href="/shop/" class="shop-icon">SHOP</a>
 
   <div class="content">
 
@@ -115,7 +96,9 @@
 
   </div>
 
-  <button id="themeToggle" class="toggle" type="button">DARK MODE</button>
+  <button id="themeToggle" class="toggle" type="button">
+    DARK MODE
+  </button>
 
   <script>
     const toggle = document.getElementById("themeToggle");
