@@ -6,7 +6,6 @@
   <title>YOUNGSKIB MUSIC</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Anek+Tamil:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <link rel="icon" type="image/png" href="favicon.png" />
 
   <style>
     :root {
@@ -62,7 +61,21 @@
       opacity: 0.8;
     }
 
-    /* UI buttons */
+    .shop-icon {
+      position: fixed;
+      top: 18px;
+      right: 20px;
+      font-size: 12px;
+      text-decoration: none;
+      color: var(--text);
+      opacity: 0.7;
+      z-index: 5;
+    }
+
+    .shop-icon:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
 
     .toggle {
       position: fixed;
@@ -80,27 +93,10 @@
       opacity: 1;
       text-decoration: underline;
     }
-
-    .shop-icon {
-      position: fixed;
-      top: 18px;
-      right: 20px;
-      font-size: 12px;
-      text-decoration: none;
-      color: var(--text);
-      opacity: 0.7;
-      z-index: 5;
-    }
-
-    .shop-icon:hover {
-      opacity: 1;
-      text-decoration: underline;
-    }
   </style>
 </head>
 <body>
 
-  <!-- SHOP -->
   <a href="/shop/" class="shop-icon">SHOP</a>
 
   <div class="content">
@@ -108,7 +104,7 @@
     <!-- AIMLESS -->
     <div class="release">
       <a href="/aimless/" class="title">AIMLESS</a>
-      <div class="status">COMING SOON</div>
+      <div class="status">OUT NOW</div>
     </div>
 
     <!-- PEACH YOGURT -->
@@ -119,21 +115,15 @@
 
   </div>
 
-  <!-- DARK MODE -->
-  <button id="themeToggle" class="toggle" type="button">
-    DARK MODE
-  </button>
+  <button id="themeToggle" class="toggle" type="button">DARK MODE</button>
 
   <script>
     const toggle = document.getElementById("themeToggle");
-
-    toggle.addEventListener("click", () => {
+    toggle.onclick = () => {
       document.body.classList.toggle("dark");
       toggle.innerText =
-        document.body.classList.contains("dark")
-          ? "LIGHT MODE"
-          : "DARK MODE";
-    });
+        document.body.classList.contains("dark") ? "LIGHT MODE" : "DARK MODE";
+    };
   </script>
 
 </body>
